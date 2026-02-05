@@ -29,6 +29,12 @@ app.use(async (req, res) => {
             },
             // Prevent axios from throwing on 4xx/5xx errors
             validateStatus: () => true,
+            responseType: 'arraybuffer', // Important for images/fonts
+        });
+
+        // Forward important headers (Content-Type, etc.)
+        Object.keys(response.headers).forEach(key => {
+            res.setHeader(key, response.headers[key]);
         });
 
         res.status(response.status).send(response.data);
