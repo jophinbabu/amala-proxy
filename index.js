@@ -16,7 +16,11 @@ app.get("/", (req, res) => {
 // Forward ALL requests to your backend
 app.use(async (req, res) => {
     try {
-        const url = TARGET + req.originalUrl;
+        let target = TARGET;
+        if (req.originalUrl.includes('/pp-pdf') || req.originalUrl.includes('/ppfile')) {
+            target = "http://pp.amalaims.org:9191";
+        }
+        const url = target + req.originalUrl;
         console.log(`Forwarding to: ${url}`);
 
         const response = await axios({
